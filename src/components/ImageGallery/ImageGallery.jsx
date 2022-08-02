@@ -1,40 +1,34 @@
-import { Component } from "react";
+import { useState } from "react";
 import PropTypes from 'prop-types';
 import ImageGalleryItem from "components/ImageGalleryItem";
 import Modal from "components/Modal";
 
-export default class ImageGallery extends Component {
-    state = {
-        showModal: false,
-        imageTags: null,
-        imageLarge: null,
+const ImageGallery = ({hits}) => {
+    const [showModal, setshowModal] = useState(false);
+    const [imageTags, setImageTags] = useState(null);
+    const [imageLarge, setImageLarge] = useState(null);
+
+    const handleShowModal = () => {
+        setshowModal(!showModal);
     }
 
-    handleShowModal = () => {
-        this.setState(({showModal}) => (
-            { showModal: !showModal }
-        ))
+    const handleImageShow = (imageTags, imageLarge) => {
+        setImageTags(imageTags);
+        setImageLarge(imageLarge)
     }
 
-    handleImageShow = (imageTags, imageLarge) => {
-        this.setState({ imageTags, imageLarge });
-    }
-
-    render() {
-        const { handleShowModal, handleImageShow } = this;
-        const { showModal, imageTags, imageLarge } = this.state;
-        const { hits } = this.props;
-        return (
-            <>
-                <ul className="ImageGallery">
-                    <ImageGalleryItem hits={hits} onShowModal={handleShowModal} handleImageShow={handleImageShow} />
-                </ul>
-                {showModal && <Modal onClose={handleShowModal}><img src={imageLarge} alt={imageTags} /></Modal>}
-            </>
-        )
-    }
-};
+    return (
+        <>
+            <ul className="ImageGallery">
+                <ImageGalleryItem hits={hits} onShowModal={handleShowModal} handleImageShow={handleImageShow} />
+            </ul>
+            {showModal && <Modal onClose={handleShowModal}><img src={imageLarge} alt={imageTags} /></Modal>}
+        </>
+    );
+}
 
 ImageGallery.propTypes = {
     hits: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
+
+export default ImageGallery;

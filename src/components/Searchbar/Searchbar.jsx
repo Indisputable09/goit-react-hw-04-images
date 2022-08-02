@@ -1,53 +1,48 @@
-import { Component } from "react";
+import { useState } from "react";
 import { AiOutlineSearch } from 'react-icons/ai';
 import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
 
-export default class Searchbar extends Component {
-    state = {
-        searchQuery: '',
-    };
+const Searchbar = ({onSubmit}) => {
+    const [searchQuery, setSearchQuery] = useState('');
 
-    handleSubmit = (e) => {
-        const { searchQuery } = this.state;
-        const { onSubmit} = this.props;
+    const handleSubmit = (e) => {
         e.preventDefault();
         if (searchQuery.trim() === '') {
             toast.error('Please, write something into the field.');
             return;
         }
         onSubmit(searchQuery);
-        this.setState({ searchQuery: ''});
+        setSearchQuery('');
         e.currentTarget.reset();
     };
 
-    handleChange = (e) => {
+    const handleChange = (e) => {
         const searchQuery = e.currentTarget.value.trim().toLowerCase();
-        this.setState({searchQuery});
+        setSearchQuery(searchQuery)
     };
+    
+    return (
+        <header className="Searchbar">
+            <form onSubmit={handleSubmit} className="SearchForm">
+                <button type="submit" className="SearchForm-button"><AiOutlineSearch className="SearchForm-icon" />
+                </button>
 
-    render() {
-        const { handleChange, handleSubmit } = this;
-        return (
-            <header className="Searchbar">
-                <form onSubmit={handleSubmit} className="SearchForm">
-                    <button type="submit" className="SearchForm-button"><AiOutlineSearch className="SearchForm-icon" />
-                    </button>
-
-                    <input onChange={handleChange}
-                        name="query"
-                        className="SearchForm-input"
-                        type="text"
-                        autoComplete="off"
-                        autoFocus
-                        placeholder="Search images and photos"
-                    />
-                </form>
-            </header>
-        )
-    }
-};
+                <input onChange={handleChange}
+                    name="query"
+                    className="SearchForm-input"
+                    type="text"
+                    autoComplete="off"
+                    autoFocus
+                    placeholder="Search images and photos"
+                />
+            </form>
+        </header>
+    );
+}
 
 Searchbar.propTypes = {
     onSubmit: PropTypes.func.isRequired,
 }
+
+export default Searchbar;
