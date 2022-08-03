@@ -7,7 +7,7 @@ import Searchbar from "./Searchbar";
 import ImageGallery from "./ImageGallery";
 import Button from "./Button";
 import Loader from "./Loader";
-import { fetchData } from "services/API";
+import { fetchData, PER_PAGE } from "services/API";
 
 const App = () => {
   const Status = {
@@ -62,7 +62,7 @@ const App = () => {
   };
 
   const NOT_EMPTY_ARRAY = hits.length !== 0;
-  const ENOUGH_IMAGES = hits.length % 12 === 0;
+  const ENOUGH_IMAGES = hits.length % PER_PAGE === 0;
   return (
     <div className="App">
       <GlobalStyle />

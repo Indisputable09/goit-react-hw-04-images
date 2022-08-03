@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
+export const PER_PAGE = 12;
 
 axios.defaults.baseURL = 'https://pixabay.com/api/';
 const URL_KEY = '27903219-6f010dc630c8173d81668507d';
@@ -12,8 +13,8 @@ export async function fetchData(searchQuery, page) {
         image_type: 'photo',
         orientation: 'horizontal',
         safesearch: true,
-        per_page: 12,
-        page: page,
+        per_page: PER_PAGE,
+        page,
       },
     });
     if (response.data.totalHits === 0) {
